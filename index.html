@@ -8,21 +8,24 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Modern Dark (Slate, Cyan) -->
-    <!-- Application Structure Plan: A modern, two-column layout. The left column is sticky on larger screens, containing primary identity info and navigation, providing constant context. The right column contains the scrollable content sections, presented as distinct "cards". This asymmetrical layout is visually dynamic and common in modern portfolio sites. On mobile, it collapses to a standard single-column for optimal usability. This structure guides the user through a narrative experience rather than just presenting a document. -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Starbucks Inspired (Green, White, Black, Cream) -->
+    <!-- Application Structure Plan: A clean, single-column, full-width layout inspired by Starbucks' brand website. A sticky top navigation bar provides easy access to all sections. Content is organized into distinct, spacious sections with a light, creamy background, creating a warm and inviting feel. This structure is designed to be approachable and professional, focusing on clear communication and a pleasant user experience, much like the Starbucks brand itself. -->
     <!-- Visualization & Content Choices: 
-        - Summary: Goal: Inform/Engage -> Presentation: A "hero" style card in the main content area -> Justification: Creates a strong, focused introduction.
-        - Skills: Goal: Compare/Inform -> Viz: Interactive Radar Chart (Chart.js) -> Interaction: Hover for skill details -> Justification: Provides a high-impact visual summary of capabilities, styled to fit the new dark theme.
-        - Experience: Goal: Organize/Inform -> Presentation: Horizontal Tabbed View -> Interaction: Click tabs for animated content reveal -> Justification: A more intuitive and standard UI pattern than vertical tabs, saving vertical space and providing a clean look.
-        - Education: Goal: Inform -> Presentation: A clean, minimalist card -> Justification: Straightforward presentation for key academic info.
-        Library/Method: Chart.js for visualization, Vanilla JS for all interactions. -->
+        - Summary: Goal: Inform/Engage -> Presentation: A prominent "hero" section with a friendly, large heading.
+        - Skills: Goal: Compare/Inform -> Viz: Interactive Radar Chart (Chart.js), restyled with the Starbucks green palette.
+        - Experience: Goal: Organize/Inform -> Presentation: A clean, card-based horizontal tab system with clear button-like navigation.
+        - Education: Goal: Inform -> Presentation: A simple, elegant card to present academic credentials clearly.
+        Library/Method: Chart.js for visualization, Vanilla JS for interactions. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* slate-900 */
-            color: #cbd5e1; /* slate-300 */
+            font-family: 'Lato', sans-serif;
+            background-color: #f7f7f7; /* Creamy off-white */
+            color: #1e1e1e; /* Nearly black */
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Lora', serif;
         }
         .chart-container {
             position: relative;
@@ -37,25 +40,23 @@
             .chart-container { height: 400px; }
         }
         .nav-link.active {
-            color: #06b6d4; /* cyan-500 */
-            background-color: #1e293b; /* slate-800 */
+            color: #00704A; /* Starbucks Green */
+            font-weight: 700;
         }
         .tab-active {
-            color: #06b6d4; /* cyan-500 */
-            border-bottom-color: #06b6d4;
+            background-color: #00704A; /* Starbucks Green */
+            color: #ffffff;
         }
         .tab-inactive {
-            color: #94a3b8; /* slate-400 */
-            border-bottom-color: transparent;
+            background-color: #e5e5e5;
+            color: #1e1e1e;
         }
-        .content-card {
-            background-color: #1e293b; /* slate-800 */
-            border: 1px solid #334155; /* slate-700 */
+        .content-section {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .content-card.is-visible {
+        .content-section.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
@@ -69,128 +70,130 @@
         }
     </style>
 </head>
-<body class="text-slate-300">
+<body class="text-gray-800">
 
-    <div class="md:flex min-h-screen">
-        <!-- Left Sticky Column -->
-        <header class="md:w-1/3 lg:w-1/4 xl:w-1/5 md:h-screen md:sticky top-0 bg-[#152033] p-8 lg:p-10 flex flex-col justify-between">
-            <div>
-                <h1 class="text-4xl font-extrabold text-white">Jashanpreet Kaur</h1>
-                <h2 class="mt-2 text-lg text-cyan-400 font-semibold">Customer-Focused Retail Professional</h2>
-                <p class="mt-4 text-sm text-slate-400 leading-relaxed">
-                    This interactive resume outlines my skills and experience. Navigate using the links below to explore my qualifications.
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav id="main-nav" class="container mx-auto px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold font-heading text-gray-900">Jashanpreet Kaur</a>
+            <ul class="hidden md:flex items-center space-x-8">
+                <li><a href="#summary" class="nav-link text-gray-700 hover:text-green-800 transition-colors">Summary</a></li>
+                <li><a href="#skills" class="nav-link text-gray-700 hover:text-green-800 transition-colors">Skills</a></li>
+                <li><a href="#experience" class="nav-link text-gray-700 hover:text-green-800 transition-colors">Experience</a></li>
+                <li><a href="#education" class="nav-link text-gray-700 hover:text-green-800 transition-colors">Education</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="summary" class="content-section bg-white pt-24 pb-20 text-center">
+            <div class="container mx-auto px-6 lg:px-8">
+                <h1 class="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">A perfect blend of customer service & teamwork.</h1>
+                <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
+                    This interactive resume outlines my qualifications for the Retail Associate role at TJX Canada. I am eager to bring my energy and passion for creating positive customer experiences.
                 </p>
-                
-                <nav id="main-nav" class="mt-12 hidden md:block">
-                    <ul class="space-y-2">
-                        <li><a href="#summary" class="nav-link flex items-center py-2 px-4 rounded-md font-semibold transition-colors duration-300 hover:bg-slate-800"><span class="mr-3 h-px w-8 bg-slate-500"></span> Summary</a></li>
-                        <li><a href="#skills" class="nav-link flex items-center py-2 px-4 rounded-md font-semibold transition-colors duration-300 hover:bg-slate-800"><span class="mr-3 h-px w-8 bg-slate-500"></span> Skills</a></li>
-                        <li><a href="#experience" class="nav-link flex items-center py-2 px-4 rounded-md font-semibold transition-colors duration-300 hover:bg-slate-800"><span class="mr-3 h-px w-8 bg-slate-500"></span> Experience</a></li>
-                        <li><a href="#education" class="nav-link flex items-center py-2 px-4 rounded-md font-semibold transition-colors duration-300 hover:bg-slate-800"><span class="mr-3 h-px w-8 bg-slate-500"></span> Education</a></li>
-                    </ul>
-                </nav>
             </div>
-            <div class="mt-8">
-                 <p class="text-sm text-slate-500">&copy; 2025 Jashanpreet Kaur</p>
-                 <p class="text-xs text-slate-600">Designed for TJX Canada</p>
-            </div>
-        </header>
+        </section>
 
-        <!-- Right Scrollable Content -->
-        <main id="content-sections" class="md:w-2/3 lg:w-3/4 xl:w-4/5 p-4 sm:p-8 lg:p-12">
-            <div class="max-w-4xl mx-auto space-y-24">
-                <section id="summary" class="content-card p-8 rounded-lg">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-4">Professional Summary</h3>
-                    <p class="text-slate-300 text-lg leading-relaxed">
-                        A friendly, adaptable, and customer-focused professional with a proven ability to create a welcoming and positive atmosphere for shoppers. Combines experience in customer service, cash handling, and inventory management with a collaborative spirit and a commitment to teamwork. Eager to bring a passion for retail and strong communication skills to the Retail Associate role at TJX Canada, contributing to a supportive and successful store environment.
-                    </p>
-                </section>
-
-                <section id="skills" class="content-card p-8 rounded-lg">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-2">Core Competencies</h3>
-                    <p class="text-slate-400 mb-6">Visual overview of my key skills. Hover over chart points for details.</p>
+        <section id="skills" class="content-section py-20">
+            <div class="container mx-auto px-6 lg:px-8 text-center">
+                <h2 class="text-4xl font-bold text-gray-900">Core Competencies</h2>
+                <p class="mt-4 max-w-2xl mx-auto text-gray-600">Here’s a look at my professional skills. Hover over the chart for more detail on how I can contribute to your team.</p>
+                <div class="mt-12 bg-white p-8 rounded-lg shadow-lg">
                     <div class="chart-container">
                         <canvas id="skillsChart"></canvas>
                     </div>
-                </section>
+                </div>
+            </div>
+        </section>
 
-                <section id="experience" class="content-card p-8 rounded-lg">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-6">Professional Experience</h3>
-                    <div class="border-b border-slate-700 mb-6">
-                        <div id="experience-tabs" class="flex space-x-4 sm:space-x-8">
-                             <button data-job="store-associate" class="py-2 font-semibold border-b-2 transition-colors duration-300 tab-active">Store Associate</button>
-                             <button data-job="customer-support" class="py-2 font-semibold border-b-2 transition-colors duration-300 tab-inactive hover:text-cyan-400">Customer Support</button>
-                             <button data-job="volunteer" class="py-2 font-semibold border-b-2 transition-colors duration-300 tab-inactive hover:text-cyan-400">Volunteer</button>
-                        </div>
+        <section id="experience" class="content-section bg-white py-20">
+            <div class="container mx-auto px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-4xl font-bold text-gray-900">Professional Experience</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">Explore my previous roles by selecting a tab below.</p>
+                </div>
+                <div class="mt-12 max-w-4xl mx-auto">
+                    <div id="experience-tabs" class="flex justify-center space-x-2 md:space-x-4 p-1 bg-gray-200 rounded-full mb-8">
+                         <button data-job="store-associate" class="w-full py-2 px-4 font-semibold rounded-full transition-colors duration-300 tab-active">Store Associate</button>
+                         <button data-job="customer-support" class="w-full py-2 px-4 font-semibold rounded-full transition-colors duration-300 tab-inactive">Customer Support</button>
+                         <button data-job="volunteer" class="w-full py-2 px-4 font-semibold rounded-full transition-colors duration-300 tab-inactive">Volunteer</button>
                     </div>
-                    <div class="relative min-h-[250px]">
+                    <div class="relative min-h-[260px] bg-gray-50 p-8 rounded-lg">
                         <div id="store-associate" class="job-content active">
-                            <h4 class="text-xl font-bold text-white">Store Associate</h4>
-                            <p class="text-md text-slate-400 mb-4">Fruticana | Surrey, BC | Feb 2025 – Apr 2025</p>
-                            <ul class="list-disc list-inside space-y-2 text-slate-300">
+                            <h4 class="text-2xl font-bold text-gray-800">Store Associate</h4>
+                            <p class="text-md text-gray-500 mb-4">Fruticana | Surrey, BC | Feb 2025 – Apr 2025</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
                                 <li>Provided exceptional customer service by greeting shoppers, addressing inquiries effectively, and fostering a welcoming environment.</li>
                                 <li>Supported cash handling and register operations during peak hours, ensuring accurate and efficient transactions.</li>
                                 <li>Managed inventory by restocking shelves and maintaining organized, appealing store displays.</li>
                             </ul>
                         </div>
-                        <div id="customer-support" class="job-content absolute top-0 left-0 w-full opacity-0 pointer-events-none">
-                             <h4 class="text-xl font-bold text-white">Customer Support Representative</h4>
-                             <p class="text-md text-slate-400 mb-4">Anywhere Anytime Ltd. | Delta, BC | Feb 2025 – Present</p>
-                             <ul class="list-disc list-inside space-y-2 text-slate-300">
-                                 <li>Engaged with customers primarily via phone and live chat, providing prompt solutions to ensure high satisfaction.</li>
+                        <div id="customer-support" class="job-content absolute top-8 left-8 right-8 w-auto opacity-0 pointer-events-none">
+                             <h4 class="text-2xl font-bold text-gray-800">Customer Support Representative</h4>
+                             <p class="text-md text-gray-500 mb-4">Anywhere Anytime Ltd. | Delta, BC | Feb 2025 – Present</p>
+                             <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                 <li>Engaged with customers via phone and live chat, providing prompt solutions to ensure high satisfaction.</li>
                                  <li>Recorded detailed interaction notes in a CRM system to track customer concerns and follow-up actions.</li>
                                  <li>Collaborated with team members to handle scheduling and appointments, ensuring optimal client flow.</li>
                              </ul>
                         </div>
-                        <div id="volunteer" class="job-content absolute top-0 left-0 w-full opacity-0 pointer-events-none">
-                             <h4 class="text-xl font-bold text-white">Volunteer, VOLT Program</h4>
-                             <p class="text-md text-slate-400 mb-4">Langara College | Vancouver, BC | Jan 2025 – Present</p>
-                             <ul class="list-disc list-inside space-y-2 text-slate-300">
+                        <div id="volunteer" class="job-content absolute top-8 left-8 right-8 w-auto opacity-0 pointer-events-none">
+                             <h4 class="text-2xl font-bold text-gray-800">Volunteer, VOLT Program</h4>
+                             <p class="text-md text-gray-500 mb-4">Langara College | Vancouver, BC | Jan 2025 – Present</p>
+                             <ul class="list-disc list-inside space-y-2 text-gray-700">
                                  <li>Collaborated with student volunteers to plan, promote, and execute on-campus and community events.</li>
                                  <li>Developed strong interpersonal and organizational skills by assisting with event logistics and setup.</li>
                              </ul>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <section id="education" class="content-card p-8 rounded-lg">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-4">Education</h3>
-                     <h4 class="text-xl font-bold text-white">Associate Degree in Computer Science</h4>
-                     <p class="text-md text-slate-400">Langara College | Vancouver, BC</p>
-                     <p class="text-md text-slate-400">January 2025 – Present</p>
-                </section>
-            </div>
-        </main>
-    </div>
+            <section id="education" class="content-section py-20 text-center">
+                <div class="container mx-auto px-6 lg:px-8">
+                    <h2 class="text-4xl font-bold text-gray-900">Education</h2>
+                    <div class="mt-8 inline-block bg-white p-8 rounded-lg shadow-lg">
+                         <h4 class="text-2xl font-bold text-gray-800">Associate Degree in Computer Science</h4>
+                         <p class="text-md text-gray-500">Langara College | Vancouver, BC</p>
+                         <p class="text-md text-gray-500">January 2025 – Present</p>
+                    </div>
+                </div>
+            </section>
+    </main>
     
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto py-6 px-6 lg:px-8 text-center text-sm">
+            <p>&copy; 2025 Jashanpreet Kaur | Designed for Retail Jobs.</p>
+        </div>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Chart.js Radar Chart
             const skillsData = {
                 labels: ['Customer Engagement', 'Communication', 'Teamwork', 'Adaptability', 'Retail Ops', 'Problem-Solving'],
                 datasets: [{
                     label: 'Proficiency',
                     data: [90, 85, 95, 88, 80, 82],
                     fill: true,
-                    backgroundColor: 'rgba(6, 182, 212, 0.2)',
-                    borderColor: 'rgb(6, 182, 212)',
-                    pointBackgroundColor: 'rgb(6, 182, 212)',
+                    backgroundColor: 'rgba(0, 112, 74, 0.2)',
+                    borderColor: 'rgb(0, 112, 74)',
+                    pointBackgroundColor: 'rgb(0, 112, 74)',
                     pointBorderColor: '#fff',
                     pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: 'rgb(6, 182, 212)'
+                    pointHoverBorderColor: 'rgb(0, 112, 74)'
                 }]
             };
             const skillsChartCtx = document.getElementById('skillsChart').getContext('2d');
-            const skillsChart = new Chart(skillsChartCtx, {
+            new Chart(skillsChartCtx, {
                 type: 'radar',
                 data: skillsData,
                 options: {
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            pointLabels: { font: { size: 12, weight: 'bold' }, color: '#cbd5e1' },
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { font: { size: 12, family: "'Lato', sans-serif" }, color: '#333' },
                             ticks: { display: false, stepSize: 20, backdropColor: 'transparent' },
                             suggestedMin: 0,
                             suggestedMax: 100
@@ -200,7 +203,6 @@
                 }
             });
 
-            // Experience Tabs
             const experienceTabs = document.getElementById('experience-tabs');
             const jobContents = document.querySelectorAll('.job-content');
             experienceTabs.addEventListener('click', (e) => {
@@ -216,43 +218,37 @@
                     
                     jobContents.forEach(content => {
                         if (content.id === targetJob) {
-                            content.classList.remove('opacity-0', 'pointer-events-none', 'absolute', 'top-0', 'left-0');
+                            content.classList.remove('opacity-0', 'pointer-events-none', 'absolute', 'top-8', 'left-8', 'right-8', 'w-auto');
                             content.classList.add('active');
                         } else {
-                            content.classList.add('opacity-0', 'pointer-events-none', 'absolute', 'top-0', 'left-0');
+                            content.classList.add('opacity-0', 'pointer-events-none', 'absolute', 'top-8', 'left-8', 'right-8', 'w-auto');
                              content.classList.remove('active');
                         }
                     });
                 }
             });
 
-            // Intersection Observers for animations
-            const cardObserver = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
                     }
                 });
             }, { threshold: 0.1 });
-            document.querySelectorAll('.content-card').forEach(card => cardObserver.observe(card));
+            document.querySelectorAll('.content-section').forEach(section => observer.observe(section));
             
-            // Active Nav Link Highlighting
             const navLinks = document.querySelectorAll('#main-nav a');
-            const contentSections = document.querySelectorAll('#content-sections section');
             const navObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         const id = entry.target.getAttribute('id');
                         navLinks.forEach(link => {
-                            link.classList.remove('active');
-                            if (link.getAttribute('href') === `#${id}`) {
-                                link.classList.add('active');
-                            }
+                            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
                         });
                     }
                 });
-            }, { rootMargin: '-30% 0px -70% 0px' });
-            contentSections.forEach(section => navObserver.observe(section));
+            }, { rootMargin: '-40% 0px -60% 0px' });
+            document.querySelectorAll('main section').forEach(section => navObserver.observe(section));
         });
     </script>
 </body>
